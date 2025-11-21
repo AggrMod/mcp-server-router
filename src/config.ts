@@ -34,7 +34,7 @@ export function getConfigPath(): string {
 }
 
 /**
- * Load config from file
+ * Load config from file (supports both flat and nested formats)
  */
 export function loadConfig(): Config {
   const configPath = getConfigPath();
@@ -45,7 +45,12 @@ export function loadConfig(): Config {
 
   try {
     const content = readFileSync(configPath, 'utf-8');
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    // Support both { servers: {...} } and flat { serverName: {...} } formats
+    if (parsed.servers) {
+      return parsed;
+    }
+    return { servers: parsed };
   } catch (error) {
     console.error(`Failed to load config from ${configPath}:`, error);
     return { servers: {} };
@@ -86,11 +91,29 @@ export function listServers(): Record<string, ServerConfig> {
 }
 
 /**
- * Get enabled servers only
+ * Resolve ${VAR} placeholders from process.env
+ */
+function resolveEnvVars(env: Record<string, string>): Record<string, string> {
+  const resolved: Record<string, string> = {};
+  for (const [key, value] of Object.entries(env)) {
+    resolved[key] = value.replace(/\$\{(\w+)\}/g, (_, varName) =>
+      process.env[varName] || ''
+    );
+  }
+  return resolved;
+}
+
+/**
+ * Get enabled servers only (with env vars resolved)
  */
 export function getEnabledServers(): Record<string, ServerConfig> {
   const servers = loadConfig().servers;
+  const enabled = Object.entries(servers).filter(([_, s]) => s.enabled !== false);
+
   return Object.fromEntries(
-    Object.entries(servers).filter(([_, s]) => s.enabled !== false)
+    enabled.map(([name, config]) => [
+      name,
+      config.env ? { ...config, env: resolveEnvVars(config.env) } : config
+    ])
   );
 }

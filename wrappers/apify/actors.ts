@@ -18,7 +18,7 @@ interface GetActorRunsInput {
 
 /** Run an Apify actor */
 export async function runActor(input: RunActorInput): Promise<MCPToolResult> {
-  return callMCPTool('mcp__apify__actor_run', input);
+  return callMCPTool('mcp__apify__call-actor', input);
 }
 
 /** Get dataset results */

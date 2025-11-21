@@ -33,7 +33,7 @@ interface MarketplaceInput {
  * @returns Listings with: title, url, price, location, photos, seller, status, delivery type
  */
 export async function scrapeMarketplace(input: MarketplaceInput): Promise<MCPToolResult> {
-  return callMCPTool('mcp__apify__actor_run', {
+  return callMCPTool('mcp__apify__call-actor', {
     actorId: 'apify/facebook-marketplace-scraper',
     input: {
       startUrls: input.startUrls.map(url => ({ url })),
