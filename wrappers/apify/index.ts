@@ -1,5 +1,13 @@
 /**
  * Apify MCP - Web scraping actors including Facebook Marketplace
  */
-export { runActor, getDataset, getActorRuns } from './actors.js';
+export {
+  callActor,
+  runActor,
+  getActorOutput,
+  searchActors,
+  fetchActorDetails,
+  searchApifyDocs,
+  fetchApifyDocs
+} from './actors.js';
 export { scrapeMarketplace } from './facebook-marketplace.js';
