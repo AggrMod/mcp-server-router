@@ -1,0 +1,51 @@
+{
+  "name": "mcp-server-router",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Universal MCP Server Router - Connect AI agents to any MCP server with a single SDK. Auto-discovery, web UI config, zero bloat.",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "ai-agents",
+    "claude",
+    "gemini",
+    "llm",
+    "ai-tools",
+    "mcp-client",
+    "anthropic"
+  ],
+  "author": "tjdot",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tjdot/mcp-server-router"
+  },
+  "main": "dist/client.js",
+  "types": "dist/client.d.ts",
+  "exports": {
+    ".": "./dist/client.js",
+    "./config": "./dist/config.js"
+  },
+  "bin": {
+    "mcp-router": "./dist/cli.js",
+    "mcp-config": "./dist/ui/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/ui/server.js",
+    "test": "npx tsx test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
