@@ -24,6 +24,7 @@ Browse `./wrappers/` to discover available tools:
 | tree-sitter | `./wrappers/tree-sitter/` | parse_file, search_code |
 | firebase | `./wrappers/firebase/` | get_projects, get_users |
 | windows-mcp | `./wrappers/windows-mcp/` | click, type, shortcut, screenshot |
+| apify | `./wrappers/apify/` | runActor, scrapeMarketplace (Facebook Marketplace) |
 
 ## Usage Examples
 
@@ -45,6 +46,18 @@ await callMCPTool('mcp__sqlite__read_query', { query: 'SELECT * FROM users' });
 ### Take browser screenshot
 ```typescript
 await callMCPTool('mcp__playwright__browser_snapshot', {});
+```
+
+### Scrape Facebook Marketplace
+```typescript
+// Requires APIFY_TOKEN in mcp-servers.json
+await callMCPTool('mcp__apify__actor_run', {
+  actorId: 'apify/facebook-marketplace-scraper',
+  input: {
+    startUrls: [{ url: 'https://www.facebook.com/marketplace/sanfrancisco/search/?query=guitar' }],
+    maxItems: 100
+  }
+});
 ```
 
 ## Configuration
